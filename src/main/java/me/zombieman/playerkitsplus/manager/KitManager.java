@@ -76,20 +76,6 @@ public class KitManager {
         FileConfiguration kitConfig = plugin.getKitConfig();
         if (!kitConfig.contains("kit." + kitName + ".items")) return;
 
-        if (cooldown) {
-            if (TimerUtils.hasCooldown(plugin, player, kitName)) {
-                long cooldownTime = TimerUtils.getCooldown(plugin, player, kitName);
-                long currentTime = System.currentTimeMillis();
-
-                if (currentTime < cooldownTime) {
-                    long remainingTimeMillis = cooldownTime - currentTime;
-                    String remainingTimeFormatted = TimerUtils.formatRemainingTime(remainingTimeMillis);
-                    player.sendMessage(ChatColor.RED + "You must wait " + remainingTimeFormatted + " before using this kit again.");
-                    return;
-                }
-            }
-        }
-
         PlayerInventory inv = player.getInventory();
         // noinspection unchecked
         List<ItemStack> itemList = (List<ItemStack>) kitConfig.getList("kit." + kitName + ".items");
@@ -156,10 +142,6 @@ public class KitManager {
 
         player.sendActionBar(ChatColor.GREEN + "Equipped Kit '" + kitName + "'");
         SoundUtil.sound(player, Sound.ENTITY_ENDER_DRAGON_FLAP);
-
-        if (cooldown) {
-            TimerUtils.setCooldown(plugin, player, kitName, TimerUtils.getKitCooldownInSeconds(kitConfig, kitName));
-        }
     }
 
     public static Collection<String> getKitNames(PlayerKitsPlus plugin) {
