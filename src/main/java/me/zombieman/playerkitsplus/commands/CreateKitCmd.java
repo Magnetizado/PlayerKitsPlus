@@ -41,20 +41,13 @@ public class CreateKitCmd implements CommandExecutor, TabCompleter {
                 return false;
             }
 
-            if (args.length != 2) {
+            if (args.length != 1) {
                 player.sendMessage(ChatColor.RED + "You need to specify a time for the kit.");
                 return false;
             }
             String timeStr = args[1];
 
             int time = 0;
-
-            try {
-                time = Integer.parseInt(timeStr);
-            } catch (NumberFormatException e) {
-                player.sendMessage(ChatColor.RED + String.format("'%s' is not a valid number.", timeStr));
-                return false;
-            }
 
             if (time < 0) {
                 player.sendMessage(ChatColor.RED +  "The timer can't be below 0.");
@@ -84,9 +77,6 @@ public class CreateKitCmd implements CommandExecutor, TabCompleter {
         if (player.hasPermission("playerkitsplus.command.createkit")) {
             if (args.length == 1) {
                 completions.add("<kit name>");
-            } else if (args.length == 2) {
-                completions.add("<time in seconds>");
-            }
         }
 
         String lastArg = args[args.length - 1];
